@@ -2,7 +2,12 @@ import { Graphics } from "@pixi/react";
 import { Graphics as PixiGraphicsType } from "pixi.js";
 import { useCallback, useEffect, useState } from "react";
 
-const Background = () => {
+interface BackgroundProps {
+  width: number;
+  height: number;
+}
+
+const Background = ({ width, height }: BackgroundProps) => {
   const [stars, setStars] = useState<Star[]>([]);
 
   useEffect(() => {
@@ -18,7 +23,7 @@ const Background = () => {
       });
     }
     setStars(newStars);
-  }, []);
+  }, [width, height]);
 
   // Animate stars with requestAnimationFrame
   useEffect(() => {
@@ -49,7 +54,7 @@ const Background = () => {
     animationFrameId = requestAnimationFrame(animate);
 
     return () => cancelAnimationFrame(animationFrameId);
-  }, []);
+  }, [width, height]);
 
   const drawBackground = useCallback(
     (g: PixiGraphicsType | null): void => {
@@ -69,7 +74,7 @@ const Background = () => {
         g.endFill();
       });
     },
-    [stars]
+    [stars, width, height]
   );
 
   return <Graphics draw={drawBackground} />;
