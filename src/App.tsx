@@ -1,38 +1,33 @@
-import { useMemo } from "react";
-import { BlurFilter, TextStyle } from "pixi.js";
-import { Stage, Container, Sprite, Text } from "@pixi/react";
+import { useState } from "react";
+import { Container, Stage } from "@pixi/react";
+import BunnySprite from "./components/BunnySprite";
+import useResize from "./hooks/useResize";
+import Background from "./components/UI/Background";
 
 const App = () => {
-  const blurFilter = useMemo(() => new BlurFilter(2), []);
-  const bunnyUrl = "https://react.pixijs.io/v7/img/bunny.png";
+  const [dimensions, setDimensions] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+  useResize({ setDimensions });
 
   return (
-    <Stage width={800} height={600} options={{ background: 0x1099bb }}>
-      <Sprite image={bunnyUrl} x={300} y={150} />
-      <Sprite image={bunnyUrl} x={500} y={150} />
-      <Sprite image={bunnyUrl} x={400} y={200} />
+    <main>
+      <Stage
+        width={dimensions.width}
+        height={dimensions.height}
+        options={{
+          autoDensity: true,
+          resizeTo: window,
+        }}
+      >
+        <Container>
+          <Background width={dimensions.width} height={dimensions.height} />
 
-      <Container x={200} y={200}>
-        <Text
-          text="Hello World"
-          anchor={0.5}
-          x={220}
-          y={150}
-          filters={[blurFilter]}
-          style={
-            new TextStyle({
-              align: "center",
-              fill: "0xffffff",
-              fontSize: 50,
-              letterSpacing: 20,
-              dropShadow: true,
-              dropShadowColor: "#E72264",
-              dropShadowDistance: 6,
-            })
-          }
-        />
-      </Container>
-    </Stage>
+          <BunnySprite />
+        </Container>
+      </Stage>
+    </main>
   );
 };
 
