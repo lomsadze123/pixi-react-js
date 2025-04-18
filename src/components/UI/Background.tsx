@@ -1,10 +1,10 @@
-import { Graphics } from "pixi.js";
+import { Graphics } from "@pixi/react";
+import { Graphics as PixiGraphicsType } from "pixi.js";
 import { useCallback, useEffect, useState } from "react";
 
 const Background = () => {
   const [stars, setStars] = useState<Star[]>([]);
 
-  // Initialize stars once
   useEffect(() => {
     const newStars: Star[] = [];
     for (let i = 0; i < 200; i++) {
@@ -51,29 +51,28 @@ const Background = () => {
     return () => cancelAnimationFrame(animationFrameId);
   }, []);
 
-  // Draw background and stars
   const drawBackground = useCallback(
-    (g: Graphics | null): void => {
+    (g: PixiGraphicsType | null): void => {
       if (!g) return;
 
       g.clear();
 
       // Background fill
-      g.fill({ color: 0x000000 });
-      g.rect(0, 0, window.innerWidth, window.innerHeight);
-      g.fill();
+      g.beginFill(0x000000);
+      g.drawRect(0, 0, window.innerWidth, window.innerHeight);
+      g.endFill();
 
       // Stars
       stars.forEach((star) => {
-        g.fill({ color: 0xffffff, alpha: star.alpha });
-        g.circle(star.x, star.y, star.size);
-        g.fill();
+        g.beginFill(0xffffff, star.alpha);
+        g.drawCircle(star.x, star.y, star.size);
+        g.endFill();
       });
     },
     [stars]
   );
 
-  return <pixiGraphics draw={drawBackground} />;
+  return <Graphics draw={drawBackground} />;
 };
 
 export default Background;

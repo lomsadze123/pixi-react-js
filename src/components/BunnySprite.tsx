@@ -1,31 +1,49 @@
-import { Assets, Texture } from "pixi.js";
-import { useEffect, useState } from "react";
+import { Sprite } from "@pixi/react";
+import { Assets, Sprite as SpriteType, Texture } from "pixi.js";
+import { useEffect, useRef, useState } from "react";
 
 const BunnySprite = () => {
   const [texture, setTexture] = useState(Texture.EMPTY);
-  const [isActive, setIsActive] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
+  const spriteRef = useRef<SpriteType | null>(null);
 
   useEffect(() => {
+    let isMounted = true;
     (async () => {
-      if (texture === Texture.EMPTY) {
-        const bunnyTexture = await Assets.load(
-          "https://pixijs.com/assets/bunny.png"
-        );
-        setTexture(bunnyTexture);
-      }
+      const bunnyTexture = await Assets.load(
+        "https://pixijs.com/assets/bunny.png"
+      );
+      if (isMounted) setTexture(bunnyTexture);
     })();
-  }, [texture]);
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isClicked) return;
+
+    const timer = setTimeout(() => {
+      if (spriteRef.current) {
+        setIsClicked(false);
+      }
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [isClicked]);
 
   return (
-    <pixiSprite
+    <Sprite
+      ref={spriteRef}
       anchor={0.5}
       eventMode="static"
       cursor="pointer"
-      onClick={() => setIsActive(!isActive)}
-      scale={isActive ? 1 : 1.5}
+      // onClick={() => setIsClicked(true)}
+      click={() => setIsClicked(true)}
+      scale={1.5}
       texture={texture}
-      x={100}
-      y={100}
+      x={window.innerWidth / 2}
+      y={isClicked ? window.innerHeight / 2 - 40 : window.innerHeight / 2}
     />
   );
 };
