@@ -62,11 +62,6 @@ const Background = ({ width, height }: BackgroundProps) => {
 
       g.clear();
 
-      // Background fill
-      g.beginFill(0x000000);
-      g.drawRect(0, 0, window.innerWidth, window.innerHeight);
-      g.endFill();
-
       // Stars
       stars.forEach((star) => {
         g.beginFill(0xffffff, star.alpha);

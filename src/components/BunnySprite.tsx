@@ -38,7 +38,6 @@ const BunnySprite = () => {
       anchor={0.5}
       eventMode="static"
       cursor="pointer"
-      // onClick={() => setIsClicked(true)}
       click={() => setIsClicked(true)}
       scale={1.5}
       texture={texture}

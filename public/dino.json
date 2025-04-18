@@ -1,0 +1,25 @@
+{
+  "frames": {
+    "dino_0.png": {
+      "frame": { "x": 0, "y": 0, "w": 144, "h": 144 }
+    },
+    "dino_1.png": {
+      "frame": { "x": 48, "y": 0, "w": 144, "h": 144 }
+    },
+    "dino_2.png": {
+      "frame": { "x": 96, "y": 0, "w": 144, "h": 144 }
+    },
+    "dino_3.png": {
+      "frame": { "x": 144, "y": 0, "w": 144, "h": 144 }
+    }
+  },
+  "meta": {
+    "image": "dinosaur.png",
+    "format": "RGBA8888",
+    "size": { "w": 192, "h": 48 },
+    "scale": "1"
+  },
+  "animations": {
+    "run": ["dino_0.png", "dino_1.png", "dino_2.png", "dino_3.png"]
+  }
+}
